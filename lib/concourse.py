@@ -129,6 +129,7 @@ def do_out() -> None:
     var_file_paths: Optional[List[str]] = None
     vars: Optional[Dict] = None
     vars_from_files: Optional[Dict] = None
+    only_builder: Optional[str] = None
     # add var file paths, if provided
     if 'var_files' in input_payload['params']:
         var_file_paths = input_payload['params']['var_files']
@@ -143,6 +144,9 @@ def do_out() -> None:
         _process_env_var_files(
             input_payload['params']['env_vars_from_files'],
             working_dir_path)
+    # get the only builders, if provided
+    if 'only' in input_payload['params']:
+        only_builder: str = input_payload['params']['only']
     # dump details, if debug enabled
     if debug_enabled:
         log('var_file_paths:')
@@ -155,6 +159,7 @@ def do_out() -> None:
     lib.packer.validate(
         working_dir_path,
         template_file_path,
+        only_builder=only_builder,
         var_file_paths=var_file_paths,
         vars=vars,
         vars_from_files=vars_from_files,
@@ -163,6 +168,7 @@ def do_out() -> None:
     build_manifest = lib.packer.build(
         working_dir_path,
         template_file_path,
+        only_builder=only_builder,
         var_file_paths=var_file_paths,
         vars=vars,
         vars_from_files=vars_from_files,

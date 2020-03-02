@@ -219,6 +219,7 @@ def version() -> None:
 def validate(
         working_dir_path: str,
         template_file_path: str,
+        only_builder: str = None,
         var_file_paths: List[str] = None,
         vars: dict = None,
         vars_from_files: dict = None,
@@ -244,6 +245,9 @@ def validate(
     # optionally check only syntax
     if syntax_only:
         packer_command_args.append('-syntax-only')
+    # optionally check only builder
+    if only_builder:
+        packer_command_args.append(f"-only={only_builder}")
     # dump args on debug
     if debug:
         log('validate args:')
@@ -262,6 +266,7 @@ def validate(
 def build(
         working_dir_path: str,
         template_file_path: str,
+        only_builder: str = None,
         var_file_paths: List[str] = None,
         vars: dict = None,
         vars_from_files: dict = None,
@@ -283,6 +288,9 @@ def build(
                     file_path,
                     working_dir=working_dir_path)
             packer_command_args.append(f"-var={var_name}={var_value}")
+    # optionally check only builder
+    if only_builder:
+        packer_command_args.append(f"-only={only_builder}")
     # dump args on debug
     if debug:
         log('build args:')

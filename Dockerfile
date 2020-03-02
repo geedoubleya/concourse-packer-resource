@@ -14,6 +14,10 @@ RUN apk add --update \
         git \
         gnupg \
         openssh \
+        gcc \
+        musl-dev \
+        libffi-dev \
+        openssl-dev \
         && \
     curl https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS.sig > packer_${PACKER_VERSION}_SHA256SUMS.sig && \
     curl https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS > packer_${PACKER_VERSION}_SHA256SUMS && \
@@ -26,6 +30,9 @@ RUN apk add --update \
       packer_${PACKER_VERSION}_SHA256SUMS \
       packer_${PACKER_VERSION}_linux_amd64.zip \
       hashicorp.asc
+
+# Install python3 version of ansible as default
+RUN pip3 --no-cache-dir install ansible
 
 # COPY requirements.txt /app/requirements.txt
 
